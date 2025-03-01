@@ -1,0 +1,22 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: jenkins-k8s-access
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: jenkins-k8s-access-binding
+subjects:
+- kind: ServiceAccount
+  name: jenkins # This should be the service account used by Jenkins
+  namespace: default # Replace with the appropriate namespace where Jenkins is deployed
+roleRef:
+  kind: ClusterRole
+  name: jenkins-k8s-access
+  apiGroup: rbac.authorization.k8s.io
